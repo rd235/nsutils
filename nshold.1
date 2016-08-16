@@ -1,0 +1,74 @@
+.TH NSHOLD 1 "August 14, 2016" "VirtualSquare Labs"
+.SH NAME
+cgroupnshold ipcnshold mntnshold netnshold pidnshold usernshold utsnshold \- Set a placeholder for a namespace
+.SH SYNOPSIS
+
+.B cgroupnshold
+[
+.I tag
+]
+
+.B ipcnshold
+[
+.I tag
+]
+
+.B mntnshold
+[
+.I tag
+]
+
+.B netnshold
+[
+.I tag
+]
+
+.B pidnshold
+[
+.I tag
+]
+
+.B usernshold
+[
+.I tag
+]
+
+.B utsnshold
+[
+.I tag
+]
+
+.SH DESCRIPTION
+\fBnshold\fR commands define placeholders for namespaces. A placeholder is a small idle process whose goal is to keep
+the namespace alive. 
+Each \fBnshold\fR command has a prefix to specify the type of namespace and creates a placeholder for the current
+namespace of that type.
+It is possible to assign a tag to a placeholder to later identify that namespace.
+
+\fItag\fR is a single argument. \fBnshold\fR implements a shortcut to define a tag consisting of several keywords:
+two dashes -- followed by all the keywords.
+
+A namespace placeholder is a process and can be terminated using \fBkill\fR(1) or \fBkill\fR(2).
+.nBnsrelease\fR commands provide a simpler interface to terminate placeholders.
+
+For example a placeholder for the net namespace of the current process can be defined by:
+.nf
+  netnshold privatenet
+.fi
+
+A user can later run a shell in that namespace typing:
+.nf
+  netnsjoin privatenet bash
+.fi
+
+Similar commands using the -- shortrcdut are:
+.nf
+  netnshold -- house automation
+  netnsjoin house automation -- bash
+.fi
+
+.SH SEE ALSO
+\fBnslist\fR(1)
+\fBnsrelease\fR(1)
+\fBnetnsjoin\fR(1)
+\fBcado\fR(1)

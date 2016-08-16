@@ -1,0 +1,69 @@
+.TH NSHOLD 1 "August 14, 2016" "VirtualSquare Labs"
+.SH NAME
+cgroupnsrelease ipcnsrelease mntnsrelease netnsrelease pidnsrelease usernsrelease utsnsrelease \- Terminate a placeholder for a namespace
+.SH SYNOPSIS
+
+.B nsrelease 
+[
+.I OPTIONS
+]
+.I placeholder
+[
+.I placeholder
+] ... [
+.I long placeholder tag
+]
+
+.B ipcnsrelease 
+.I same syntax as nsrelease
+
+.B cgroupnsrelease 
+.I same syntax as nsrelease
+
+.B ipcnsrelease 
+.I same syntax as nsrelease
+
+.B mntnsrelease 
+.I same syntax as nsrelease
+
+.B netnsrelease 
+.I same syntax as nsrelease
+
+.B pidnsrelease 
+.I same syntax as nsrelease
+
+.B usernsrelease 
+.I same syntax as nsrelease
+
+.B utsnsrelease 
+.I same syntax as nsrelease
+
+.SH DESCRIPTION
+\fBnsrelease\fR commands terminate placeholders for namespaces defined by \fBnshold\fR(1). 
+A prefix can be added to the command name to specify the type of namespace.
+
+The placeholder can be identified by its pid, by the namespace id (e.g. net:[1234567890]) or 
+using the tag defined by \fBnetnshold(1)\fR.
+
+By the option \fB-r\fR it is possible to use regular expressions to identify namespace tags.
+
+A double dash argument can be used as a shortcut to write a tag composed by several keywords:
+all the remaining arguments following -- compose the tag.
+
+.SH OPTIONS
+.TP
+\fB\-r
+.TQ
+\fB\-\-regex
+placeholder arguments are regular expressions.
+.TP
+\fB\-h
+.TQ
+\fB\-\-help
+print a short usage banner and exit.
+
+.SH SEE ALSO
+\fBnshold\fR(1)
+\fBnslist\fR(1)
+\fBnetnsjoin\fR(1)
+\fBcado\fR(1)

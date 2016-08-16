@@ -1,0 +1,149 @@
+.TH NSLIST 1 "August 14, 2016" "VirtualSquare Labs"
+.SH NAME
+nslist cgroupnslist ipcnslist mntnslist netnslist pidnslist usernslist utsnslist \- List namespaces
+.SH SYNOPSIS
+
+.B nslist
+[
+OPTIONS
+]
+[
+.I pid_or_namespace_id_or_placeholder_tag
+]
+...
+[ --
+.I long placeholder tag
+]
+
+.B cgroupnslist
+.I same syntax as nslist
+
+.B ipcnslist
+.I same syntax as nslist
+
+.B mntnslist
+.I same syntax as nslist
+
+.B netnslist
+.I same syntax as nslist
+
+.B pidnslist
+.I same syntax as nslist
+
+.B usernslist
+.I same syntax as nslist
+
+.B utsnslist
+.I same syntax as nslist
+
+.SH DESCRIPTION
+\fBnslist\fR commands are utility commands to list namespaces (ns from now on) 
+and check the mapping between processes and namespaces.
+Each \fBnslist\fR command has a prefix to specify the type of ns. \fBnslist\fR without any prefix can be used
+when the ns can be identified in a non ambiguous way or to list all the namespaces of any type. 
+
+The ns to list can be identified by the ns id (e.g. net:[1234567890]) or using a tag defined by a \fBnshold(1)\fR
+command. 
+By the option \fB-r\fR it is possible to use regular expressions to identify ns tags.
+
+If the argument is a pid instead of a ns id or tag, these commands list the ns (or namespaces) that
+process belongs to.
+
+In case no argument is given (after the options)
+these commands list all the namespaces and for each namespace all the processes belonging
+to that namespace. 
+
+.SH OPTIONS
+
+.TP
+\fB\-r
+.TQ
+\fB\-\-regex
+arguments are regular expressions of ns tags
+.TP
+\fB\-u
+.TQ
+\fB\-\-listuser
+display the owner of each process
+.TP
+\fB\-H
+.TQ
+\fB\-\-placeholder
+display only the placeholder processes
+.TP
+\fB\-U \fIuid_or_username\fR
+.TQ
+\fB\-\-placeholder \fIuid_or_username\fR
+filter the list to include only the processes belonging to a specific user
+.TP
+\fB\-H
+.TQ
+\fB\-\-placeholder
+show only placeholder processes
+.TP
+\fB\-C
+.TQ
+\fB\-\-listcomm
+show the command instead of the command line
+.TP
+\fB\-p
+.TQ
+\fB\-\-pid
+output just the list of pids of matching processes
+.TP
+\fB\-c
+.TQ
+\fB\-\-count
+output just the number of matching processes
+.TP
+\fB\-T
+.TQ
+\fB\-\-tabular
+give a tabular output (without titles and separations between namespaces)
+.TP
+\fB\-n
+.TQ
+\fB\-\-numeric
+list the ns numeric id (1234567890 instead of ipc[1234567890])
+.TP
+\fB\-s
+.TQ
+\fB\-\-short 1
+short form: list only pid and ns id for each process matching the criteria defined
+by the other options (for scripts)
+.TP
+\fB\-s \-s
+.TQ
+\fB\-ss
+.TQ
+\fB\-\-short 2
+very short form: list ns id only
+.TP
+\fB\-t
+.TQ
+\fB\-\-tag
+show a ns tag together with the ns id (when defined)
+.TP
+\fB\-t \-t
+.TO
+\fB\-tt
+.TQ
+\fB\-\-tagonly
+show a ns tag instead of the ns id (when defined)
+.TP
+\fB\-R \fIregex\fR
+.TQ
+\fB\-\-recomm \fIregex\fR
+show only those processes whose command match regex
+(regex is a regular expression)
+.TP
+\fB\-h
+.TQ
+\fB\-\-help
+print a short usage banner and exit.
+
+.SH SEE ALSO
+\fBnshold\fR(1)
+\fBnsrelease\fR(1)
+\fBnetnsjoin\fR(1)
+\fBcado\fR(1)

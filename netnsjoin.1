@@ -1,0 +1,34 @@
+.TH NETNSJOIN 1 "August 14, 2016" "VirtualSquare Labs"
+.SH NAME
+netnsjoin \- Join the net namespace of another process
+.SH SYNOPSIS
+
+.B cado
+.I pid_or_net_namespace_id_or_placeholder_tag
+.I command
+[
+.I args
+]
+
+.B cado
+.I long placeholder tag
+.R --
+.I command
+[
+.I args
+]
+
+.SH DESCRIPTION
+\fBnetnsjoin\fR joins the net namespace of another process.
+
+The namespace to join can be identified by the pid of a process belonging to
+that namespace, by the namespace id (e.g. net:[1234567890]) or using a tag defined by \fBnetnshold(1)\fR
+
+Root access or CAP_NET_ADMIN is required to run the program. CAP_NET_ADMIN can be delegated to
+specific users by \fBcado(1)\fR (if installed).
+
+.SH SEE ALSO
+\fBnetnshold\fR(1)
+\fBnetnslist\fR(1)
+\fBnetnsrelease\fR(1)
+\fBcado\fR(1)
