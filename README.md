@@ -15,13 +15,14 @@ $ sudo make install
 **nslist**, **nshold** and **nsrelease** restrict their action to one type
 of namespaces using one of the following prefixes:
 **cgroup**, **ipc**, **mnt**, **net**, **pid**, **user**, **uts**.  
-i.e. use **nslist** to list namespace of any kind, **netnslist** to list
-only network namespaces.
+i.e. use **nslist** to list namespaces of any kind, **netnslist** to list
+network namespaces only.
 
-The suite provide a set of man pages providing a complete description of the tools and a detailed commented 
+The suite includes a set of man pages providing a complete description of the tools and a detailed commented 
 list of all the options.
 
-This page gives some examples of common usage cases.
+This page gives just some examples of common usage cases to show what
+*nsutils* are useful for.
 
 ## nslist: list the namespaces
 
@@ -195,7 +196,7 @@ $ ps ax | grep net:
 10301 pts/58   S+     0:00 grep net:
 ```
 
-User may like to add long tags sonsisting of several words. They can use
+User may like to add long tags consisting of several words. They can use
 shell quoting, or a specific syntax provided by **nshold**
 ```
 $ netnshold -- house automation
