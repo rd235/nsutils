@@ -3,19 +3,23 @@
 netnsjoin \- Join the net namespace of another process
 .SH SYNOPSIS
 
-.B cado
+.B netnsjoin
 .I pid_or_net_namespace_id_or_placeholder_tag
+[
 .I command
 [
 .I args
 ]
+]
 
-.B cado
+.B netnsjoin
 .I long placeholder tag
 .R --
+[
 .I command
 [
 .I args
+]
 ]
 
 .SH DESCRIPTION
@@ -26,6 +30,9 @@ that namespace, by the namespace id (e.g. net:[1234567890]) or using a tag defin
 
 Root access or CAP_NET_ADMIN is required to run the program. CAP_NET_ADMIN can be delegated to
 specific users by \fBcado(1)\fR (if installed).
+
+If \fIcommand\fR is omitted \fBnetnsjoin\fR launch the content of the
+environment variable $SHELL in the target namespace.
 
 .SH SEE ALSO
 \fBnetnshold\fR(1)

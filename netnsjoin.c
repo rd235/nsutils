@@ -1,21 +1,21 @@
-/* 
+/*
  * nsutils: namespace utilities
  * Copyright (C) 2016  Renzo Davoli, University of Bologna
- * 
+ *
  * netnsjoin: join a network namespace.
  *
  * Cado is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
- * along with this program; If not, see <http://www.gnu.org/licenses/>. 
+ * along with this program; If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -37,8 +37,8 @@
 
 void usage_and_exit(char *progname) {
 	fprintf(stderr, "Usage:\n"
-			"%s pid_or_net_namespace_id command [args]\n"
-			"%s pid or net namespace id -- command [args]\n\n", progname, progname);
+			"%s pid_or_net_namespace_id [command [args]]\n"
+			"%s pid or net namespace id -- [command [args]]\n\n", progname, progname);
 	exit(1);
 }
 
@@ -100,26 +100,38 @@ int main(int argc, char *argv[])
 	int nsfd;
 	char *nsname;
 	int cmd;
+	char *argvsh[]={getenv("SHELL"),NULL};
+	char **cmdargv;
 	char ns1[PATH_MAX+1];
 	char nsid[PATH_MAX+1];
 
-	if (argc < 3) {
+	if (argc < 2) {
 		usage_and_exit(basename(argv[0]));
 	}
 
-	if (geteuid() != 0 && 
+	if (geteuid() != 0 &&
 			get_effective_cap(CAP_NET_ADMIN) != CAP_SET &&
 			get_inheritable_cap(CAP_NET_ADMIN) != CAP_SET) {
 		fprintf(stderr,"root or cap_net_admin required: permission denied\n");
 		exit(1);
-	} 
+	}
 
-	/* if there is -- in the command line the name of the namespace 
+	/* if there is -- in the command line the name of the namespace
 		 consists of several args, cat them together */
  	if ((cmd = cmdoptind(argv)) == 2)
 		nsname = argv[1];
 	else
 		nsname = catargv(argv + 1);
+
+	if (cmd < argc)
+		cmdargv = argv + cmd;
+	else {
+		cmdargv = argvsh;
+		if (cmdargv[0] == NULL) {
+			fprintf(stderr, "Error: $SHELL env variable not set.\n");
+			exit(1);
+		}
+	}
 
 	if ((pid = nssearchone("net", nsname)) <= 0) {
 		if (pid == 0)
@@ -127,7 +139,7 @@ int main(int argc, char *argv[])
 		else
 			fprintf(stderr,"%s: too many placeholders\n", nsname);
 		exit(1);
-	} 
+	}
 
 	asprintf(&ns_path, "/proc/%d/ns/net",pid);
 
@@ -191,9 +203,9 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 	fprintf(stderr, "Joining net namespace %s\n",nsid);
-	execvp(argv[cmd], argv + cmd);
+	execvp(cmdargv[0], cmdargv);
 
-	perror(argv[cmd]);
+	perror(cmdargv[0]);
 	exit(0);
 
 close_abort:
