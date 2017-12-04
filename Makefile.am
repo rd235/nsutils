@@ -37,6 +37,8 @@ install-exec-hook:
 	ln -sf nslist $(DESTDIR)$(bindir)/utsnslist
 	ln -sf nsrelease $(DESTDIR)$(bindir)/utsnsrelease
 	setcap cap_sys_ptrace,cap_sys_admin+p $(DESTDIR)$(bindir)/netnsjoin
+
+install-data-hook:
 	ln -sf nshold.1 $(DESTDIR)$(man1dir)/cgroupnshold.1
 	ln -sf nslist.1 $(DESTDIR)$(man1dir)/cgroupnslist.1
 	ln -sf nsrelease.1 $(DESTDIR)$(man1dir)/cgroupnsrelease.1
