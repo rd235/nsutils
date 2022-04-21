@@ -1,11 +1,16 @@
-#NSUTILS: Linux namespace utilities
+# NSUTILS - linux namespace utilities
+The nsutils suite includes a number of utilities to list, tag, and join
+namespaces.
 
-Nsutils suite includes a number of utilities to list, add/remove tag, and join namespaces.
+## Build instructions
+Install the following dependencies:
+- [autoconf](https://www.gnu.org/software/autoconf/autoconf.html) (build time only)
+- [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) (build time only)
+- [libbsd](https://libbsd.freedesktop.org/wiki/)
+- [libcap](https://sites.google.com/site/fullycapable/)
 
-INSTALL:
-
-get the source code, from the root of the source tree run:
-```
+Get the source code, and from the root of the source tree run:
+```sh
 $ autoreconf -if
 $ ./configure
 $ make
@@ -14,11 +19,11 @@ $ sudo make install
 
 **nslist**, **nshold** and **nsrelease** restrict their action to one type
 of namespaces using one of the following prefixes:
-**cgroup**, **ipc**, **mnt**, **net**, **pid**, **user**, **uts**.  
+**cgroup**, **ipc**, **mnt**, **net**, **pid**, **user**, **uts**.
 i.e. use **nslist** to list namespaces of any kind, **netnslist** to list
 network namespaces only.
 
-The suite includes a set of man pages providing a complete description of the tools and a detailed commented 
+The suite includes a set of man pages providing a complete description of the tools and a detailed commented
 list of all the options.
 
 This page gives just some examples of common usage cases to show what
@@ -101,7 +106,7 @@ $ netnslist -T -R "bash"
 ```
 
 - list the namespaces of a specific user (for root. All the commands above
-can be restricted to the processes of a specific user by the `-U` option) 
+can be restricted to the processes of a specific user by the `-U` option)
 ```
 # nslist -U myuser -ss
 cgroup:[4026531835]
@@ -176,7 +181,7 @@ net:[4026532883]
 A namespace survives until there is at least a process running in it (or if
 it has been *mounted*, see mount(2))
 
-**nshold** creates a namespace *placeholder*: 
+**nshold** creates a namespace *placeholder*:
 an idle process whose cmdline is the namespace id
 (so it can be easily found in the output of ps(1)).
 
@@ -254,7 +259,7 @@ net:[4026532883]
 ```
 
 ```
-$ nslist -T -r house 
+$ nslist -T -r house
           NAMESPACE      PID CMDLINE
    net:[4026532883]    10297 net:[4026532883] safenet
    net:[4026532883]    10348 net:[4026532883] house automation

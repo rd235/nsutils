@@ -20,6 +20,9 @@ AC_CHECK_HEADERS([sys/capability.h],
 		[],
 		[AC_MSG_ERROR([missing libcap header])])
 
+PKG_CHECK_MODULES([LIBBSD], [libbsd-overlay],,
+		 [AC_MSG_ERROR([libbsd not found])])
+
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_UID_T
 AC_TYPE_PID_T

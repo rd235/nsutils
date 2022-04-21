@@ -2,7 +2,8 @@ bin_PROGRAMS = nshold nslist nsrelease netnsjoin
 
 nshold_SOURCES = nshold.c catargv.c prefix.c
 
-nshold_LDADD = -lbsd -lcap
+nshold_LDADD = @LIBBSD_LIBS@ -lcap
+nshold_CFLAGS = @LIBBSD_CFLAGS@ $(AM_CFLAGS)
 
 nslist_SOURCES = nslist.c catargv.c memogetusername.c prefix.c printflen.c
 
@@ -13,7 +14,7 @@ netnsjoin_SOURCES = netnsjoin.c nssearch.c catargv.c prefix.c
 netnsjoin_LDADD = -lcap
 
 man_MANS = netnsjoin.1 nshold.1 nslist.1 nsrelease.1
- 
+
 install-exec-hook:
 	ln -sf nshold $(DESTDIR)$(bindir)/cgroupnshold
 	ln -sf nslist $(DESTDIR)$(bindir)/cgroupnslist
