@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 	}
 
 	if (prefixlen != 0)
-		asprintf(&prefix, "%*.*s", prefixlen, prefixlen, progname);
+		asprintf(&prefix, "%.*s", prefixlen, progname);
 
 	while (1) {
 		int c, option_index = 0;

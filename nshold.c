@@ -1,22 +1,22 @@
-/* 
+/*
  * nsutils: namespace utilities
  * Copyright (C) 2016  Renzo Davoli, University of Bologna
- * 
+ *
  * nshold: keep-alive and give a name tag to a namespace
  *
  * Cado is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
- * along with this program; If not, see <http://www.gnu.org/licenses/>. 
- *  
+ * along with this program; If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 
@@ -27,8 +27,8 @@
 #include <libgen.h>
 #include <errno.h>
 #include <limits.h>
+#include <unistd.h>
 #include <sys/capability.h>
-#include <bsd/unistd.h>
 
 #include <catargv.h>
 #include <prefix.h>
@@ -74,40 +74,45 @@ void usage_and_exit(char *progname, char *prefix) {
 /* create a placeholder process for the namespace */
 int main(int argc, char **argv, char **envp)
 {
-	char *progname = basename(argv[0]);
-	int prefixlen = strlen(progname) - sizeof(NAME) + 3;
-  char *prefix = NULL;
-	char *nspath;
-	char *nsname;
-	int dashdash = dashdashargc(argv);
-	char *tag = NULL;
-	if (prefixlen == 0)
-		prefixerror_and_exit(progname);
-	else
-		asprintf(&prefix, "%*.*s", prefixlen, prefixlen, progname);
+	if (guessprefix(argv[0]) == NULL) {
+		char *progname = basename(argv[0]);
+		int prefixlen = strlen(progname) - sizeof(NAME) + 3;
+		char *prefix = NULL;
+		char *nspath;
+		char *nsname;
+		int dashdash = dashdashargc(argv);
+		char *tag = NULL;
+		if (prefixlen == 0)
+			prefixerror_and_exit(progname);
+		else
+			asprintf(&prefix, "%.*s", prefixlen, progname);
 
-	if (dashdash < argc) 
-		tag = catargv(argv+(dashdash + 1));
-	else if (argc == 2)
-		tag = argv[1];
-	else if (argc != 1)
-		usage_and_exit(progname, prefix);
+		if (dashdash < argc)
+			tag = catargv(argv+(dashdash + 1));
+		else if (argc == 2)
+			tag = argv[1];
+		else if (argc != 1)
+			usage_and_exit(progname, prefix);
 
-	clear_all_caps();
-	
-	asprintf(&nspath, "%s%*.*s", NSPATH, prefixlen, prefixlen, basename(argv[0]));
-	if ((nsname = readlinkdup(nspath)) == NULL) 
+		clear_all_caps();
+
+		asprintf(&nspath, "%s%.*s", NSPATH, prefixlen, basename(argv[0]));
+		if ((nsname = readlinkdup(nspath)) == NULL)
+			return 1;
+
+		static char *newargv[2];
+		if (tag && *tag)
+			asprintf(&newargv[0],"%s %s", nsname, tag);
+		else
+			asprintf(&newargv[0],"%s", nsname);
+
+		daemon(0,0);
+		execve("/proc/self/exe", newargv, envp);
 		return 1;
 
-	setproctitle_init(argc, argv, envp);
-	if (tag && *tag)
-		setproctitle("-%s %s", nsname, tag);
-	else
-		setproctitle("-%s", nsname);
-
-	daemon(0,0);
-
-	while (1)
-		pause();
-	return 0;
+	} else {
+		while (1)
+			pause();
+		return 0;
+	}
 }

@@ -2,7 +2,7 @@ bin_PROGRAMS = nshold nslist nsrelease netnsjoin
 
 nshold_SOURCES = nshold.c catargv.c prefix.c
 
-nshold_LDADD = -lbsd -lcap
+nshold_LDADD = -lcap
 
 nslist_SOURCES = nslist.c catargv.c memogetusername.c prefix.c printflen.c
 
