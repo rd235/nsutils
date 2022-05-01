@@ -19,7 +19,6 @@
  *
  */
 
-#define _GNU_SOURCE 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -38,7 +37,7 @@
 #include <prefix.h>
 #include <printflen.h>
 
-#define NAME __FILE__
+#define NAMELEN (strlen(basename(__FILE__)) - 2)
 
 /* filter for scandir to pick only the /proc/[pid] directories */
 static inline int isnumber(const char *s) {
@@ -496,7 +495,7 @@ int dashdashargc(char **argv) {
 
 int main(int argc, char *argv[]) {
 	char *progname = basename(argv[0]);
-	int prefixlen = strlen(progname) - sizeof(NAME) + 3;
+	int prefixlen = strlen(progname) - NAMELEN;
 	char *prefix = NULL;
 	struct nslist *nslist;
 	static struct scanfilter scanfilter = SCANFILTER_INIT;

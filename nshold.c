@@ -20,7 +20,6 @@
  */
 
 
-#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,7 +32,7 @@
 #include <catargv.h>
 #include <prefix.h>
 
-#define NAME __FILE__
+#define NAMELEN (strlen(basename(__FILE__)) - 2)
 #define NSPATH "/proc/self/ns/"
 
 int clear_all_caps(void) {
@@ -76,7 +75,7 @@ int main(int argc, char **argv, char **envp)
 {
 	if (guessprefix(argv[0]) == NULL) {
 		char *progname = basename(argv[0]);
-		int prefixlen = strlen(progname) - sizeof(NAME) + 3;
+		int prefixlen = strlen(progname) - NAMELEN;
 		char *prefix = NULL;
 		char *nspath;
 		char *nsname;

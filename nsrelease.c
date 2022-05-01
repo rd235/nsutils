@@ -19,7 +19,6 @@
  *  
  */
     
-#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,7 +32,7 @@
 #include <catargv.h>
 #include <prefix.h>
 
-#define NAME __FILE__
+#define NAMELEN (strlen(basename(__FILE__)) - 2)
 
 static char *short_options = "hr";
 static struct option long_options[] = {
@@ -69,7 +68,7 @@ int dashdashargc(char **argv) {
 int main(int argc, char *argv[])
 {
 	char *progname = basename(argv[0]);
-	int prefixlen = strlen(progname) - sizeof(NAME) + 3;
+	int prefixlen = strlen(progname) - NAMELEN;
 	char *prefix = NULL;
 	int regex_mode = 0;
 	int dashdash = dashdashargc(argv);

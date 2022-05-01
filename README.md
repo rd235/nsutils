@@ -6,8 +6,9 @@ INSTALL:
 
 get the source code, from the root of the source tree run:
 ```
-$ autoreconf -if
-$ ./configure
+$ mkdir build
+$ cd build
+$ cmake ..
 $ make
 $ sudo make install
 ```
