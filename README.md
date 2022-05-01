@@ -130,9 +130,9 @@ mnt:[4026531840]
 ## netnsjoin: join another network namespace
 
 **netnsjoin** runs a command in the net namespace of another process.
-This command requires root access or at least the CAP_NET_ADMIN capability.
-Users with CAP_NET_ADMIN capability are allowed to join all the namespaces
-thay have access to but the *real* namespace (i.e. the net namespace of
+This command requires root access or at least the `CAP_NET_ADMIN` capability.
+Users with `CAP_NET_ADMIN` capability are allowed to join all the namespaces
+they have access to but the *real* namespace (i.e. the net namespace of
 process 1).
 
 **netnsjoin** does not need the net namespace to be *mounted*, see

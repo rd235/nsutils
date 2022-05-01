@@ -88,9 +88,12 @@ int main(int argc, char **argv, char **envp)
 
 		if (dashdash < argc)
 			tag = catargv(argv+(dashdash + 1));
-		else if (argc == 2)
-			tag = argv[1];
-		else if (argc != 1)
+		else if (argc == 2) {
+			if (argv[1][0] == '-')
+				usage_and_exit(progname, prefix);
+			else
+				tag = argv[1];
+		} else if (argc != 1)
 			usage_and_exit(progname, prefix);
 
 		clear_all_caps();
