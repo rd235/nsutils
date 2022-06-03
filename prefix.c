@@ -25,7 +25,7 @@
 #include <prefix.h>
 #include <time.h>
 
-char *nsnames[] = { "cgroup", "ipc", "mnt", "net", "pid", "user", "uts", (char *)0}; 
+char *nsnames[] = { "cgroup", "ipc", "mnt", "net", "pid", "user", "time", "uts", (char *)0}; 
 size_t nsnames_maxlen = 6;
 
 void prefixerror_and_exit(char *progname) {
